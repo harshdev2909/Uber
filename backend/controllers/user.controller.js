@@ -38,5 +38,10 @@ module.exports.loginUser = async (req,res,next) => {
         return res.status(400).json({message: "Invalid credentials"});
     }
     const token = user.genereateAuthToken();
+    res.cookie('token',token);
     res.status(200).json({token, user});
+}
+
+module.exports.getProfile = async (req,res,next) => {
+    res.status(200).json({user: req.user});
 }
