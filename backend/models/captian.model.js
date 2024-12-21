@@ -2,78 +2,78 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const captianSchema = mongoose.Schema({
-    fullname:{
-        firstname:{
+    fullname: {
+        firstname: {
             type: String,
             required: true,
             trim: true
         },
-        lastname:{
+        lastname: {
             type: String,
-            
             trim: true
         }
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        match : [/\S+@\S+\.\S+/, 'is invalid'],
+        match: [/\S+@\S+\.\S+/, 'is invalid'],
     },
-    password:{
+    password: {
         type: String,
         required: true,
         select: false
     },
-    socketId:{
+    socketId: {
         type: String
     },
-    status:{
+    status: {
         type: String,
         enum: ['active', 'inactive'],
         default: 'inactive'
     },
-    vechile:{
-        color:{
+    vechile: {
+        color: {
             type: String,
             required: true
         },
-        plate:{
+        plate: {
             type: String,
             required: true
         },
-        capacity:{
+        capacity: {
             type: Number,
             required: true
         },
-        vechileType:{
+        vechileType: {
             type: String,
             required: true,
             enum: ['car', 'bike', 'auto']
         }
     },
-    location:{
-        lat:{
+    location: {
+        lat: {
             type: Number,
-            // required: true
         },
-        lng:{
+        lng: {
             type: Number,
-            // required: true
         }
     }
-})
+});
 
 captianSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({_id: this._id},process.env.JWT_SECRET,{expireIn : '24h'})
+    const token = jwt.sign({_id: this._id}, process.env.JWT_SECRET, { expiresIn: '24h' });
     return token;
 }
+
 captianSchema.methods.comparePassword = async function(password) {
-    return await bcrypt.compare(password,this.password);
+    return await bcrypt.compare(password, this.password);
 }
-captianSchema.static.hashPassword = async function(password) {
-    return await bcrypt.hash(password,10);
+
+captianSchema.statics.hashPassword = async function(password) {
+    return await bcrypt.hash(password, 10);
 }
-const captianModel = mongoose.model('Captian', captianSchema);
-module.exports = captianModel;
+
+const CaptianModel = mongoose.model('Captian', captianSchema);
+module.exports = CaptianModel;

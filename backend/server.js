@@ -11,10 +11,11 @@ connectDB();
 app.use(cookieParser());
 const Router = require('./routes/user.routes');
 app.use("/users",Router)
+const Routers = require('./routes/captian.router');
+app.use("/captians",Routers)
 // app.use("/",(req,res)=>{
 //     res.send("Hello World");
 // })
-
 app.listen(port,()=>{
     console.log(`server is running on port ${port}`)
 })
