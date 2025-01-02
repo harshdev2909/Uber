@@ -19,7 +19,7 @@ router.post('/login',[
 
 router.get('/profile',authMiddleware.authUser,[
 
-], userController.getProfile)
+], userController.getProfile);
 
 router.get('/logout', authMiddleware.authUser, userController.logoutUser);
 
